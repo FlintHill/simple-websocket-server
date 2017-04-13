@@ -573,8 +573,10 @@ class WebSocket(object):
 
 
 class SimpleWebSocketServer(object):
-   def __init__(self, host, port, websocketclass, selectInterval = 0.1):
+   def __init__(self, host, port, websocketclass, passed_data_1, passed_data_2, selectInterval = 0.1):
       self.websocketclass = websocketclass
+      self.passed_data_1 = passed_data_1
+      self.passed_data_2 = passed_data_2
       self.serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
       self.serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
       self.serversocket.bind((host, port))
@@ -587,7 +589,7 @@ class SimpleWebSocketServer(object):
       return sock
 
    def _constructWebSocket(self, sock, address):
-      return self.websocketclass(self, sock, address)
+      return self.websocketclass(self, sock, address, self.passed_data_1, self.passed_data_2)
 
    def close(self):
       self.serversocket.close()
